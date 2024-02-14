@@ -1,10 +1,13 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { BsGithub, BsGoogle } from "react-icons/bs";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 import Button from "@/components/Button";
 import Input from "@/components/inputs/Input";
+
+import AuthSocialButton from "./AuthSocialButton";
 
 type Variant = "LOGIN" | "REGISTER";
 
@@ -30,6 +33,10 @@ function AuthForm() {
 
   const onSubmit: SubmitHandler<FieldValues> = (values) => {
     console.log(values);
+  };
+
+  const socialAction = (action: string) => {
+    console.log(action);
   };
 
   return (
@@ -70,6 +77,26 @@ function AuthForm() {
                 Or continue with
               </span>
             </div>
+          </div>
+          <div className="mt-6 flex gap-2">
+            <AuthSocialButton
+              icon={BsGithub}
+              onClick={() => socialAction("github")}
+            />
+            <AuthSocialButton
+              icon={BsGoogle}
+              onClick={() => socialAction("google")}
+            />
+          </div>
+          <div className="mt-6 flex justify-center text-sm gap-2 px-2 text-gray-500">
+            <p>
+              {variant === "LOGIN"
+                ? "New to EasyChat?"
+                : "Already have an account?"}
+            </p>
+            <p className="underline cursor-pointer" onClick={toogleVariant}>
+              {variant === "LOGIN" ? "Create an account" : "Login"}
+            </p>
           </div>
         </div>
       </div>
