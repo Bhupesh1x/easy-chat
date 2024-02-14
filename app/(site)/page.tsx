@@ -4,7 +4,7 @@ import AuthForm from "./_components/AuthForm";
 
 export default function Page() {
   return (
-    <div className="flex flex-col h-full items-center justify-center">
+    <div className="flex flex-col h-full items-center justify-center bg-gray-100">
       <div className="mx-auto">
         <Image
           src="/images/logo.png"
