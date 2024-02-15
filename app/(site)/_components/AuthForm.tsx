@@ -2,9 +2,10 @@
 
 import axios from "axios";
 import { toast } from "sonner";
-import { signIn } from "next-auth/react";
-import { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
 import { BsGithub, BsGoogle } from "react-icons/bs";
+import { signIn, useSession } from "next-auth/react";
+import { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 import Button from "@/components/Button";
@@ -17,6 +18,15 @@ type Variant = "LOGIN" | "REGISTER";
 function AuthForm() {
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
+  const session = useSession();
+
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      router.push("/users");
+    }
+  }, [session?.status, router]);
 
   const toogleVariant = useCallback(() => {
     setVariant((prev) => (prev === "LOGIN" ? "REGISTER" : "LOGIN"));
