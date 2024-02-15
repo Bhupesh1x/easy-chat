@@ -68,8 +68,24 @@ function AuthForm() {
     }
   };
 
-  const socialAction = (action: string) => {
-    console.log(action);
+  const socialAction = async (action: string) => {
+    try {
+      const callback = await signIn(action, {
+        redirect: false,
+      });
+
+      if (callback?.error) {
+        return toast.error("Invalid credentials");
+      }
+
+      if (callback?.ok) {
+        return toast.success("Logged in success!");
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
