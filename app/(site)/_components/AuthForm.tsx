@@ -49,6 +49,10 @@ function AuthForm() {
     if (variant === "REGISTER") {
       try {
         await axios.post("/api/register", values);
+        signIn("credentials", {
+          ...values,
+          redirect: false,
+        });
       } catch (error) {
         toast.error("Something went wrong");
       } finally {
@@ -68,7 +72,8 @@ function AuthForm() {
         }
 
         if (callback?.ok) {
-          return toast.success("Logged in success!");
+          toast.success("Logged in success!");
+          return router.push("/users");
         }
       } catch (error) {
         toast.error("Something went wrong");
