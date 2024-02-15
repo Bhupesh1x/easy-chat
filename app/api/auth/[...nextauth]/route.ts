@@ -26,8 +26,8 @@ export const authOptions: AuthOptions = {
         password: { label: "password", type: "password" },
       },
       async authorize(credentials) {
-        if (credentials?.email || credentials?.password) {
-          throw new Error("Invaid credentials");
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Missing required fields");
         }
 
         const user = await db.user.findUnique({
@@ -41,8 +41,8 @@ export const authOptions: AuthOptions = {
         }
 
         const isPasswordCorrect = await bcrypt.compare(
-          user.hashedPassword,
-          credentials?.password!
+          credentials?.password,
+          user.hashedPassword
         );
 
         if (!isPasswordCorrect) {

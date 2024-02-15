@@ -1,5 +1,8 @@
 "use client";
 
+import axios from "axios";
+import { toast } from "sonner";
+import { signIn } from "next-auth/react";
 import { useCallback, useState } from "react";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -31,8 +34,38 @@ function AuthForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (values) => {
-    console.log(values);
+  const onSubmit: SubmitHandler<FieldValues> = async (values) => {
+    setIsLoading(true);
+    if (variant === "REGISTER") {
+      try {
+        await axios.post("/api/register", values);
+      } catch (error) {
+        toast.error("Something went wrong");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    if (variant === "LOGIN") {
+      try {
+        const callback = await signIn("credentials", {
+          ...values,
+          redirect: false,
+        });
+
+        if (callback?.error) {
+          return toast.error("Invalid credentials");
+        }
+
+        if (callback?.ok) {
+          return toast.success("Logged in success!");
+        }
+      } catch (error) {
+        toast.error("Something went wrong");
+      } finally {
+        setIsLoading(false);
+      }
+    }
   };
 
   const socialAction = (action: string) => {
