@@ -1,11 +1,20 @@
 "use client";
 
+import { useState } from "react";
+import { User } from "@prisma/client";
+
 import useRoutes from "@/hooks/use-routes";
 
+import Avatar from "../Avatar";
 import DesktopItem from "./DesktopItem";
 
-function DesktopSidebar() {
+type Props = {
+  currentUser: User;
+};
+
+function DesktopSidebar({ currentUser }: Props) {
   const routes = useRoutes();
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="hidden lg:fixed lg:inset-y-0 lg:z-40 lg:w-20 lg:left-0 xl:px-6 lg:overflow-y-auto lg:bg-white lg:border-r-[1px] lg:pb-4 lg:flex lg:flex-col justify-between">
@@ -22,6 +31,14 @@ function DesktopSidebar() {
             />
           ))}
         </ul>
+      </nav>
+      <nav className="mt-4 flex flex-col justify-between items-center">
+        <div
+          onClick={() => setOpen(true)}
+          className="cursor-pointer hover:opacity-75 transition"
+        >
+          <Avatar imageSrc={currentUser?.image} />
+        </div>
       </nav>
     </div>
   );
