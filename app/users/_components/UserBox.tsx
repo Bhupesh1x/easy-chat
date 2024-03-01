@@ -22,12 +22,14 @@ function UserBox({ user }: Props) {
       setIsLoading(true);
 
       const res = await axios.post("/api/conversations", { userId: user.id });
+
+      router.push(`/conversations/${res.data?.id}`);
     } catch (error) {
       toast.error("Something went wrong!");
     } finally {
       setIsLoading(false);
     }
-  }, [user.id]);
+  }, [router, user.id]);
 
   return (
     <div
