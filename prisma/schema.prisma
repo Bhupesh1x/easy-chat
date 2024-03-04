@@ -54,8 +54,8 @@ model Conversation {
   name          String?
   isGroup       Boolean?
 
-  messageIds String[]  @db.ObjectId
-  messages   Message[]
+  messagesIds String[]  @db.ObjectId
+  messages    Message[]
 
   userIds String[] @db.ObjectId
   users   User[]   @relation(fields: [userIds], references: [id])
