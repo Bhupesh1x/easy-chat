@@ -1,7 +1,9 @@
 import getMessages from "@/actions/getMessages";
 import getConversationById from "@/actions/getConversationById";
 
+import Body from "./_components/Body";
 import Header from "./_components/Header";
+import MessageFormFooter from "./_components/MessageFormFooter";
 
 import EmptyState from "@/components/EmptyState";
 
@@ -28,6 +30,8 @@ async function ConversationIdPage({ params }: { params: IParams }) {
     <div className="lg:pl-80 h-full">
       <div className="h-full flex flex-col">
         <Header conversation={conversation} />
+        <Body />
+        <MessageFormFooter />
       </div>
     </div>
   );
