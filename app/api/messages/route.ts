@@ -1,6 +1,6 @@
-import db from "@/libs/db";
 import { NextResponse } from "next/server";
 
+import db from "@/libs/db";
 import getCurrentUser from "@/actions/getCurrentUser";
 
 export async function POST(req: Request) {
