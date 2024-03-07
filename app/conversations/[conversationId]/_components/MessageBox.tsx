@@ -1,12 +1,15 @@
 "use client";
 
+import axios from "axios";
 import Image from "next/image";
+import { useEffect } from "react";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 
-import Avatar from "@/components/Avatar";
-
 import { FullMessageType } from "@/app/types";
+
+import Avatar from "@/components/Avatar";
+import useConversation from "@/hooks/use-conversations";
 
 type Props = {
   isLast?: Boolean;
@@ -15,6 +18,7 @@ type Props = {
 
 function MessageBox({ message, isLast }: Props) {
   const session = useSession();
+  const { conversationId } = useConversation();
 
   const isOwn = session?.data?.user?.email === message?.sender?.email;
 
@@ -22,6 +26,14 @@ function MessageBox({ message, isLast }: Props) {
     .filter((user) => user.email !== message.sender.email)
     .map((user) => user.name)
     .join(", ");
+
+  useEffect(() => {
+    try {
+      axios.post(`/api/conversations/${conversationId}/seen`);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <div className={`flex gap-3 p-4 ${isOwn && "justify-end"}`}>
@@ -52,6 +64,9 @@ function MessageBox({ message, isLast }: Props) {
             <p>{message.body}</p>
           )}
         </div>
+        {isLast && isOwn && seenList.length > 0 && (
+          <div className="text-xs font-light text-gray-500">{`Seen by ${seenList}`}</div>
+        )}
       </div>
     </div>
   );
