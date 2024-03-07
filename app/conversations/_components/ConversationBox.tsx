@@ -68,7 +68,7 @@ function ConversationBox({ data, selected }: Props) {
       }`}
     >
       <Avatar imageSrc={otherUser.image} />
-      <div>
+      <div className="w-full">
         <div className="flex justify-between items-center w-full">
           <p className="text-md font-medium text-gray-900">
             {data.name || otherUser.name}
