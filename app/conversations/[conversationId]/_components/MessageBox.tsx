@@ -33,7 +33,7 @@ function MessageBox({ message, isLast }: Props) {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [conversationId]);
 
   return (
     <div className={`flex gap-3 p-4 ${isOwn && "justify-end"}`}>
