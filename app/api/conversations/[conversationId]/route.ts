@@ -1,6 +1,7 @@
-import getCurrentUser from "@/actions/getCurrentUser";
-import db from "@/libs/db";
 import { NextResponse } from "next/server";
+
+import db from "@/libs/db";
+import getCurrentUser from "@/actions/getCurrentUser";
 
 type IParams = {
   conversationId?: string;
