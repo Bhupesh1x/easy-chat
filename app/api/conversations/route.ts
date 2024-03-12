@@ -6,11 +6,39 @@ import getCurrentUser from "@/actions/getCurrentUser";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { userId } = body;
+    const { userId, isGroup, members, name } = body;
     const currentUser = await getCurrentUser();
 
     if (!currentUser?.id || !currentUser?.email) {
       return new NextResponse("User unauthorized", { status: 401 });
+    }
+
+    if (isGroup && (!members || members.length < 2 || !name)) {
+      return new NextResponse("Invalid data", { status: 400 });
+    }
+
+    if (isGroup) {
+      const newConversation = await db.conversation.create({
+        data: {
+          name,
+          isGroup,
+          users: {
+            connect: [
+              ...members.map((member: { value: string }) => ({
+                id: member.value,
+              })),
+              {
+                id: currentUser?.id,
+              },
+            ],
+          },
+        },
+        include: {
+          users: true,
+        },
+      });
+
+      return NextResponse.json(newConversation);
     }
 
     const existingConversations = await db.conversation.findMany({
