@@ -2,14 +2,16 @@
 
 import axios from "axios";
 import Image from "next/image";
-import { useEffect } from "react";
 import { format } from "date-fns";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
 import { FullMessageType } from "@/app/types";
 
 import Avatar from "@/components/Avatar";
 import useConversation from "@/hooks/use-conversations";
+
+import ImageModal from "./ImageModal";
 
 type Props = {
   isLast?: Boolean;
@@ -19,6 +21,8 @@ type Props = {
 function MessageBox({ message, isLast }: Props) {
   const session = useSession();
   const { conversationId } = useConversation();
+
+  const [imageModalOpen, setImageModalOpen] = useState(false);
 
   const isOwn = session?.data?.user?.email === message?.sender?.email;
 
@@ -52,6 +56,11 @@ function MessageBox({ message, isLast }: Props) {
             isOwn ? "bg-sky-500 text-white" : "bg-gray-100"
           } ${message.image ? "rounded-md p-0" : "rounded-md py-2 px-4"}`}
         >
+          <ImageModal
+            src={message?.image}
+            isOpen={imageModalOpen}
+            onClose={() => setImageModalOpen(false)}
+          />
           {message?.image ? (
             <Image
               height={288}
@@ -59,6 +68,7 @@ function MessageBox({ message, isLast }: Props) {
               src={message.image}
               className="object-cover cursor-pointer translate hover:scale-105 transition"
               alt="img"
+              onClick={() => setImageModalOpen(true)}
             />
           ) : (
             <p>{message.body}</p>

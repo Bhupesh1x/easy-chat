@@ -94,10 +94,10 @@ const Modal = ({ isOpen, onClose, children }: Props) => {
                 "
               >
                 <button
-                  className="p-1 border-0  hover:opacity-70 transition absolute right-2 top-3"
+                  className="p-1 border-0  hover:opacity-70 transition absolute right-2 top-3 z-50"
                   onClick={handleClose}
                 >
-                  <IoMdClose size={18} />
+                  <IoMdClose size={18} className="text-black" />
                 </button>
               </div>
               <div className="px-4 py-2">{children}</div>
