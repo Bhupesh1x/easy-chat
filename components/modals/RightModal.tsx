@@ -73,7 +73,7 @@ const RightModal = ({ isOpen, onClose, children, title }: Props) => {
             ${showModal ? "opacity-100" : "opacity-0"}
           `}
           >
-            <div className="absolute right-0 h-full w-[20rem]">
+            <div className="absolute right-0 h-full w-[21rem]">
               <div
                 className="
               translate

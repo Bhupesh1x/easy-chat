@@ -73,6 +73,16 @@ function ProfileDrawer({ isOpen, onClose, data }: Props) {
             </div>
           </div>
           <div className="mt-4 space-y-4">
+            {data?.isGroup && (
+              <div>
+                <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
+                  Emails
+                </dt>
+                <dd className="text-sm text-gray-900 mt-1">
+                  {data.users.map((user) => user.email).join(", ")}
+                </dd>
+              </div>
+            )}
             {!data?.isGroup && (
               <div>
                 <dt className="text-sm font-medium text-gray-500">Email</dt>
