@@ -8,6 +8,7 @@ import { Conversation, User } from "@prisma/client";
 import useOtherUser from "@/hooks/use-other-user";
 
 import Avatar from "@/components/Avatar";
+import AvatarGroup from "@/components/AvatarGroup";
 import RightModal from "@/components/modals/RightModal";
 
 import ConfirmModal from "./ConfirmModal";
@@ -48,7 +49,11 @@ function ProfileDrawer({ isOpen, onClose, data }: Props) {
         <div className="relative mt-6 flex-1 px-4 dm:px-6">
           <div className="flex flex-col items-center">
             <div className="mb-2">
-              <Avatar imageSrc={otherUser.image} />
+              {data?.isGroup ? (
+                <AvatarGroup users={data.users} />
+              ) : (
+                <Avatar imageSrc={otherUser.image} />
+              )}
             </div>
             <p>{title}</p>
             <p className="text-xs text-gray-500">{statusText}</p>

@@ -5,9 +5,11 @@ import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
-import Avatar from "@/components/Avatar";
 import useOtherUser from "@/hooks/use-other-user";
 import { FullConversationType } from "@/app/types";
+
+import Avatar from "@/components/Avatar";
+import AvatarGroup from "@/components/AvatarGroup";
 
 type Props = {
   data: FullConversationType;
@@ -63,11 +65,17 @@ function ConversationBox({ data, selected }: Props) {
   return (
     <div
       onClick={handleClick}
-      className={`w-full relative flex items-center space-x-3 rounded-lg transition cursor-pointer hover:bg-neutral-100 p-3 ${
+      className={`w-full relative flex items-center space-x-5 rounded-lg transition cursor-pointer hover:bg-neutral-100 p-3 ${
         selected ? "bg-gray-100" : "bg-white"
       }`}
     >
-      <Avatar imageSrc={otherUser.image} />
+      <div className="min-w-6">
+        {data?.isGroup ? (
+          <AvatarGroup users={data.users} />
+        ) : (
+          <Avatar imageSrc={otherUser.image} />
+        )}
+      </div>
       <div className="w-full">
         <div className="flex justify-between items-center w-full">
           <p className="text-md font-medium text-gray-900">
