@@ -69,7 +69,7 @@ function ConversationBox({ data, selected }: Props) {
         selected ? "bg-gray-100" : "bg-white"
       }`}
     >
-      <div className="min-w-6">
+      <div>
         {data?.isGroup ? (
           <AvatarGroup users={data.users} />
         ) : (
