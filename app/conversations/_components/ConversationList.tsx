@@ -51,11 +51,28 @@ function ConversationList({ users, initialItems }: Props) {
       });
     };
 
+    const updateConversation = (conversation: FullConversationType) => {
+      setItems((current) =>
+        current.map((currentConversation) => {
+          if (currentConversation.id === conversation.id) {
+            return {
+              ...currentConversation,
+              messages: conversation.messages,
+            };
+          }
+
+          return currentConversation;
+        })
+      );
+    };
+
     pusherClient.bind("conversation:new", newConversationHandler);
+    pusherClient.bind("conversation:update", updateConversation);
 
     return () => {
       pusherClient.unsubscribe(pusherKey);
       pusherClient.unbind("conversation:new", newConversationHandler);
+      pusherClient.unbind("conversation:update", updateConversation);
     };
   }, [pusherKey]);
 
