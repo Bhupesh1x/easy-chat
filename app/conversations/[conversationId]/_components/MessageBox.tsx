@@ -20,8 +20,6 @@ type Props = {
 
 function MessageBox({ message, isLast }: Props) {
   const session = useSession();
-  const { conversationId } = useConversation();
-
   const [imageModalOpen, setImageModalOpen] = useState(false);
 
   const isOwn = session?.data?.user?.email === message?.sender?.email;
@@ -30,14 +28,6 @@ function MessageBox({ message, isLast }: Props) {
     .filter((user) => user.email !== message.sender.email)
     .map((user) => user.name)
     .join(", ");
-
-  useEffect(() => {
-    try {
-      axios.post(`/api/conversations/${conversationId}/seen`);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [conversationId]);
 
   return (
     <div className={`flex gap-3 p-4 ${isOwn && "justify-end"}`}>
