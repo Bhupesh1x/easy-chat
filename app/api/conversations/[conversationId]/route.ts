@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import db from "@/libs/db";
+import { pusherServer } from "@/libs/pusher";
 import getCurrentUser from "@/actions/getCurrentUser";
 
 type IParams = {
@@ -36,6 +37,16 @@ export async function DELETE(req: Request, { params }: { params: IParams }) {
           hasSome: [currentUser?.id],
         },
       },
+    });
+
+    existingConversation.users.map((user) => {
+      if (user.email) {
+        pusherServer.trigger(
+          user.email,
+          "conversation:remove",
+          existingConversation
+        );
+      }
     });
 
     return NextResponse.json(deletedConversation);

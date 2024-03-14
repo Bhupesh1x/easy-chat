@@ -66,15 +66,27 @@ function ConversationList({ users, initialItems }: Props) {
       );
     };
 
+    const removeConversation = (conversation: FullConversationType) => {
+      setItems((current) => {
+        return [...current.filter((convo) => convo.id !== conversation.id)];
+      });
+
+      if (conversationId === conversation.id) {
+        router.push("/conversations");
+      }
+    };
+
     pusherClient.bind("conversation:new", newConversationHandler);
     pusherClient.bind("conversation:update", updateConversation);
+    pusherClient.bind("conversation:remove", removeConversation);
 
     return () => {
       pusherClient.unsubscribe(pusherKey);
       pusherClient.unbind("conversation:new", newConversationHandler);
       pusherClient.unbind("conversation:update", updateConversation);
+      pusherClient.unbind("conversation:remove", removeConversation);
     };
-  }, [pusherKey]);
+  }, [conversationId, pusherKey, router]);
 
   return (
     <>
