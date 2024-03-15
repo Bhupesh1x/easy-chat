@@ -39,7 +39,7 @@ function UserBox({ user }: Props) {
         className="relative flex items-center gap-x-1 space-x-3 bg-white hover:bg-gray-100 transition rounded-lg p-2 cursor-pointer"
         onClick={handleClick}
       >
-        <Avatar imageSrc={user?.image} />
+        <Avatar imageSrc={user?.image} email={user?.email} />
         <p className="text-sm font-medium text-gray-900">{user.name}</p>
       </div>
     </>

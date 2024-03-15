@@ -73,7 +73,7 @@ function ConversationBox({ data, selected }: Props) {
         {data?.isGroup ? (
           <AvatarGroup users={data.users} />
         ) : (
-          <Avatar imageSrc={otherUser.image} />
+          <Avatar imageSrc={otherUser.image} email={otherUser.email} />
         )}
       </div>
       <div className="w-full">

@@ -11,6 +11,7 @@ import AvatarGroup from "@/components/AvatarGroup";
 import ProfileDrawer from "./ProfileDrawer";
 
 import useOtherUser from "@/hooks/use-other-user";
+import useActiveList from "@/hooks/use-active-list";
 
 type Props = {
   conversation: Conversation & {
@@ -22,13 +23,16 @@ function Header({ conversation }: Props) {
   const otherUser = useOtherUser(conversation);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  const { members } = useActiveList();
+  const isActive = members.indexOf(otherUser?.email!) !== -1;
+
   const statusText = useMemo(() => {
     if (conversation?.isGroup) {
       return `${conversation?.users?.length} members`;
     }
 
-    return "Active";
-  }, [conversation?.isGroup, conversation?.users?.length]);
+    return isActive ? "Active" : "Offline";
+  }, [conversation?.isGroup, conversation?.users?.length, isActive]);
 
   return (
     <>
@@ -48,7 +52,7 @@ function Header({ conversation }: Props) {
           {conversation?.isGroup ? (
             <AvatarGroup users={conversation.users} />
           ) : (
-            <Avatar imageSrc={otherUser.image} />
+            <Avatar imageSrc={otherUser.image} email={otherUser.email} />
           )}
           <div className="flex flex-col">
             <p>{conversation.name || otherUser.name}</p>

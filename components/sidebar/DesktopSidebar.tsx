@@ -39,7 +39,7 @@ function DesktopSidebar({ currentUser }: Props) {
             onClick={() => setIsOpen(true)}
             className="cursor-pointer hover:opacity-75 transition"
           >
-            <Avatar imageSrc={currentUser?.image} />
+            <Avatar imageSrc={currentUser?.image} email={currentUser?.email} />
           </div>
         </nav>
       </div>

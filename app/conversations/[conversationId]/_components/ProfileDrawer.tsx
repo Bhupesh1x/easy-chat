@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { Conversation, User } from "@prisma/client";
 
 import useOtherUser from "@/hooks/use-other-user";
+import useActiveList from "@/hooks/use-active-list";
 
 import Avatar from "@/components/Avatar";
 import AvatarGroup from "@/components/AvatarGroup";
@@ -35,13 +36,16 @@ function ProfileDrawer({ isOpen, onClose, data }: Props) {
     [data.name, otherUser.name]
   );
 
+  const { members } = useActiveList();
+  const isActive = members.indexOf(otherUser?.email!) !== -1;
+
   const statusText = useMemo(() => {
     if (data?.isGroup) {
       return `${data?.users?.length} members`;
     }
 
-    return "Active";
-  }, [data?.isGroup, data?.users?.length]);
+    return isActive ? "Active" : "Offline";
+  }, [data?.isGroup, data?.users?.length, isActive]);
 
   return (
     <>
@@ -52,7 +56,7 @@ function ProfileDrawer({ isOpen, onClose, data }: Props) {
               {data?.isGroup ? (
                 <AvatarGroup users={data.users} />
               ) : (
-                <Avatar imageSrc={otherUser.image} />
+                <Avatar imageSrc={otherUser.image} email={otherUser.email} />
               )}
             </div>
             <p>{title}</p>

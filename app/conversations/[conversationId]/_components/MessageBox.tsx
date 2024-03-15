@@ -32,7 +32,7 @@ function MessageBox({ message, isLast }: Props) {
   return (
     <div className={`flex gap-3 p-4 ${isOwn && "justify-end"}`}>
       <div className={`${isOwn && "order-2"}`}>
-        <Avatar imageSrc={message.sender.image} />
+        <Avatar imageSrc={message.sender.image} email={message.sender.email} />
       </div>
       <div className={`flex flex-col gap-2 ${isOwn && "items-end"}`}>
         <div className="flex items-center gap-1">
