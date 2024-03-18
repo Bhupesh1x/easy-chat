@@ -92,7 +92,9 @@ function ConversationBox({ data, selected }: Props) {
             hasSeen ? "text-gray-500" : "text-black font-medium"
           }`}
         >
-          {lastMessageText}
+          {lastMessageText.length > 30
+            ? `${lastMessageText?.slice(0, 30)}...`
+            : lastMessageText}
         </p>
       </div>
     </div>
